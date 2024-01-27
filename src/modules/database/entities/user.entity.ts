@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   BeforeInsert,
   Column,
   CreateDateColumn,
@@ -43,5 +44,10 @@ export class User {
   async hashPasswordAndGenerateId() {
     this.id = randomUUID();
     this.password = await bcrypt.hash(this.password, 8);
+  }
+
+  @AfterLoad()
+  hidePassword() {
+    delete this.password;
   }
 }
